@@ -1,6 +1,8 @@
 PPPP
 ====
 
+By Alejandro Santos, `alejolp@gmail.com`
+
 Run: 
 
     ./main.py parse test.py

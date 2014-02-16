@@ -5,11 +5,12 @@
 """
 PPPP: Pure Python Python Parser
 
-PPPP Parser Generator.
+PPPP Parser Generator. This is the code generator por the "parser.py" file.
 """
 
 import sys
 import textwrap
+import pprint
 
 from . import grammarparse
 from . import tokenizer
@@ -45,8 +46,15 @@ class parser_gen:
     def __init__(self):
         self.G = None
         self.header = ""
+        self.header2 = ""
         self.methods = []
-        self.hidx = 1
+        self.hidx = 1 # Index counter for sub-expressions
+        self.tables = [] # Sub-sets of FIRST subexpressions
+
+    def newTable(self, data):
+        idx = len(self.tables)
+        self.tables.append(data)
+        return idx
 
     def parseSubexpr(self, N, ctx):
         helper_name = "parsehelper_" + str(self.hidx)
@@ -172,16 +180,41 @@ class parser_gen:
             #
             
             childs.sort(key=(lambda x: x[1]), reverse=True)
-            
+
+            # For each terminal we check if it is contained in only one FIRST set, or more.
+            # If it is present in only one we dispatch the function using the table. 
+            # If it is present in two or more, we iterate each alternative using the order of precedence.
+
+            N_first_set=self.G.FIRST(N)
+            N_first_set_idx=self.newTable(N_first_set)
+
             m += """
         # A-type (alt)
-"""
+        if self.tok_peek_gstr().isdisjoint(TABLE[{0}]) and not ({1} in TABLE[{0}]):
+            self.pos = oldpos
+            return None
+""".format(N_first_set_idx, repr(grammarparse.EPS_SYMBOL))
+
+            alts_first_sets=[]
             for x, _xlen, _subp in childs:
+
+                # FIRST stuff.
+                this_first_set=self.G.FIRST(_subp)
+                disjoint=[]
+                for sidx, s in enumerate(alts_first_sets):
+                    if not s.isdisjoint(this_first_set):
+                        disjoint.append((sidx, s.intersection(this_first_set)))
+                alts_first_sets.append(this_first_set)
+                if len(disjoint) > 0:
+                    disjoint_str = "INTERSECTION: YES " + ', '.join(map(str, disjoint))
+                else:
+                    disjoint_str = "INTERSECTION: EMPTY"
+
                 m += """
-        c = self.{0}(node) # {1}, {2}
+        c = self.{0}(node) # {1}, {2} FIRST: {3} {4}
         if c is not None:
             return c
-""".format(x, _xlen, _subp)
+""".format(x, _xlen, _subp, this_first_set, disjoint_str)
             m += """
         self.pos = oldpos
         return None
@@ -264,13 +297,19 @@ from pppp.parserbase import astnode
 
 SPECIAL_NAMES = {0}
 
+""".format(self.G.special_terminals))
+
+        self.header += "FIRST=" + pprint.pformat(dict([(x[0], self.G.FIRST(x[0])) for x in self.G.productions]))
+        self.header += """\n"""
+
+        self.header2 = ("""
 class parser(parserbase.parser_base):
     def __init__(self, toks):
         parserbase.parser_base.__init__(self, toks)
         
     def is_special_name(self, name):
         return name in SPECIAL_NAMES
-""".format(self.G.special_terminals))
+""".format())
     
         for x, p in zip(self.G.productions, self.G.productions_text):
             #print(x)
@@ -288,8 +327,7 @@ class parser(parserbase.parser_base):
 {2}
         \"\"\"
         node = astnode('{0}')
-        first = {3}
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST[{3}]):
             return None
         #
         startpos = self.pos
@@ -300,7 +338,7 @@ class parser(parserbase.parser_base):
 """.format(x[0],                                        # 0
             indent(textwrap.wrap(p), " " * 8),          # 1
             indent(textwrap.wrap(repr(x)), " " * 8),    # 2
-            repr(self.G.FIRST(x[0])),                   # 3
+            repr(x[0]),                                 # 3
             subexp))                                    # 4
         
             m += ("""
@@ -312,6 +350,9 @@ class parser(parserbase.parser_base):
             self.methods.append(m)
 
         print(self.header)
+        #print('\n'.join(("TABLE_" + str(i) + "=" + repr(x)) for i, x in enumerate(self.tables)))
+        print("""TABLE=""" + pprint.pformat(self.tables))
+        print(self.header2)
         print('\n\n'.join(map(lambda x: x.strip("\n").rstrip(), self.methods)))
 
 def main():

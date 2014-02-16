@@ -10,5 +10,9 @@ class tree_walker:
     def __init__(self, T):
         self.T = T
 
+    def walk(self):
+        pass
+
+
 def compile(T):
     pass

@@ -12,6 +12,1201 @@ from pppp.parserbase import astnode
 
 SPECIAL_NAMES = {"'>>='", "'True'", "'is'", "'or'", "'=='", "';'", "'<='", "'raise'", "'%'", "'^='", "'lambda'", "'...'", "'try'", "'+'", "'~'", "'return'", "'assert'", "'^'", "'break'", "'False'", "']'", "'**='", "'import'", "'yield'", "','", "'('", "'.'", "'>='", "'//='", "'*'", "'/='", "'@'", "'-='", "'|'", "'//'", "'->'", "'def'", "'*='", "'%='", "'>'", "'**'", "'not'", "':'", "'None'", "'<>'", "'in'", "'as'", "'class'", "'|='", "'elif'", "'and'", "'{'", "'+='", "'continue'", "'nonlocal'", "'<<'", "'&'", "'while'", "'except'", "'!='", "'else'", "'with'", "'='", "'/'", "'-'", "'['", "'&='", "')'", "'global'", "'for'", "'from'", "'if'", "'finally'", "'pass'", "'del'", "'<<='", "'}'", "'>>'", "'<'"}
 
+FIRST={'and_expr': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'and_test': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'not'",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'arglist': frozenset({"'('",
+                       "'*'",
+                       "'**'",
+                       "'+'",
+                       "'-'",
+                       "'...'",
+                       "'False'",
+                       "'None'",
+                       "'True'",
+                       "'['",
+                       "'lambda'",
+                       "'not'",
+                       "'{'",
+                       "'~'",
+                       'NAME',
+                       'NUMBER',
+                       'STRING'}),
+ 'argument': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'lambda'",
+                        "'not'",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'arith_expr': frozenset({"'('",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'{'",
+                          "'~'",
+                          'NAME',
+                          'NUMBER',
+                          'STRING'}),
+ 'assert_stmt': frozenset({"'assert'"}),
+ 'atom': frozenset({"'('",
+                    "'...'",
+                    "'False'",
+                    "'None'",
+                    "'True'",
+                    "'['",
+                    "'{'",
+                    'NAME',
+                    'NUMBER',
+                    'STRING'}),
+ 'augassign': frozenset({"'%='",
+                         "'&='",
+                         "'**='",
+                         "'*='",
+                         "'+='",
+                         "'-='",
+                         "'//='",
+                         "'/='",
+                         "'<<='",
+                         "'>>='",
+                         "'^='",
+                         "'|='"}),
+ 'break_stmt': frozenset({"'break'"}),
+ 'classdef': frozenset({"'class'"}),
+ 'comp_for': frozenset({"'for'"}),
+ 'comp_if': frozenset({"'if'"}),
+ 'comp_iter': frozenset({"'for'", "'if'"}),
+ 'comp_op': frozenset({"'!='",
+                       "'<'",
+                       "'<='",
+                       "'<>'",
+                       "'=='",
+                       "'>'",
+                       "'>='",
+                       "'in'",
+                       "'is'",
+                       "'not'"}),
+ 'comparison': frozenset({"'('",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'{'",
+                          "'~'",
+                          'NAME',
+                          'NUMBER',
+                          'STRING'}),
+ 'compound_stmt': frozenset({"'@'",
+                             "'class'",
+                             "'def'",
+                             "'for'",
+                             "'if'",
+                             "'try'",
+                             "'while'",
+                             "'with'"}),
+ 'continue_stmt': frozenset({"'continue'"}),
+ 'decorated': frozenset({"'@'"}),
+ 'decorator': frozenset({"'@'"}),
+ 'decorators': frozenset({"'@'"}),
+ 'del_stmt': frozenset({"'del'"}),
+ 'dictorsetmaker': frozenset({"'('",
+                              "'+'",
+                              "'-'",
+                              "'...'",
+                              "'False'",
+                              "'None'",
+                              "'True'",
+                              "'['",
+                              "'lambda'",
+                              "'not'",
+                              "'{'",
+                              "'~'",
+                              'NAME',
+                              'NUMBER',
+                              'STRING'}),
+ 'dotted_as_name': frozenset({'NAME'}),
+ 'dotted_as_names': frozenset({'NAME'}),
+ 'dotted_name': frozenset({'NAME'}),
+ 'encoding_decl': frozenset({'NAME'}),
+ 'eval_input': frozenset({"'('",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'lambda'",
+                          "'not'",
+                          "'{'",
+                          "'~'",
+                          'NAME',
+                          'NUMBER',
+                          'STRING'}),
+ 'except_clause': frozenset({"'except'"}),
+ 'expr': frozenset({"'('",
+                    "'+'",
+                    "'-'",
+                    "'...'",
+                    "'False'",
+                    "'None'",
+                    "'True'",
+                    "'['",
+                    "'{'",
+                    "'~'",
+                    'NAME',
+                    'NUMBER',
+                    'STRING'}),
+ 'expr_stmt': frozenset({"'('",
+                         "'*'",
+                         "'+'",
+                         "'-'",
+                         "'...'",
+                         "'False'",
+                         "'None'",
+                         "'True'",
+                         "'['",
+                         "'lambda'",
+                         "'not'",
+                         "'{'",
+                         "'~'",
+                         'NAME',
+                         'NUMBER',
+                         'STRING'}),
+ 'exprlist': frozenset({"'('",
+                        "'*'",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'factor': frozenset({"'('",
+                      "'+'",
+                      "'-'",
+                      "'...'",
+                      "'False'",
+                      "'None'",
+                      "'True'",
+                      "'['",
+                      "'{'",
+                      "'~'",
+                      'NAME',
+                      'NUMBER',
+                      'STRING'}),
+ 'file_input': frozenset({"'('",
+                          "'*'",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'@'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'assert'",
+                          "'break'",
+                          "'class'",
+                          "'continue'",
+                          "'def'",
+                          "'del'",
+                          "'for'",
+                          "'from'",
+                          "'global'",
+                          "'if'",
+                          "'import'",
+                          "'lambda'",
+                          "'nonlocal'",
+                          "'not'",
+                          "'pass'",
+                          "'raise'",
+                          "'return'",
+                          "'try'",
+                          "'while'",
+                          "'with'",
+                          "'yield'",
+                          "'{'",
+                          "'~'",
+                          'ENDMARKER',
+                          'NAME',
+                          'NEWLINE',
+                          'NUMBER',
+                          'STRING'}),
+ 'flow_stmt': frozenset({"'break'",
+                         "'continue'",
+                         "'raise'",
+                         "'return'",
+                         "'yield'"}),
+ 'for_stmt': frozenset({"'for'"}),
+ 'funcdef': frozenset({"'def'"}),
+ 'global_stmt': frozenset({"'global'"}),
+ 'if_stmt': frozenset({"'if'"}),
+ 'import_as_name': frozenset({'NAME'}),
+ 'import_as_names': frozenset({'NAME'}),
+ 'import_from': frozenset({"'from'"}),
+ 'import_name': frozenset({"'import'"}),
+ 'import_stmt': frozenset({"'import'", "'from'"}),
+ 'lambdef': frozenset({"'lambda'"}),
+ 'lambdef_nocond': frozenset({"'lambda'"}),
+ 'nonlocal_stmt': frozenset({"'nonlocal'"}),
+ 'not_test': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'not'",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'or_test': frozenset({"'('",
+                       "'+'",
+                       "'-'",
+                       "'...'",
+                       "'False'",
+                       "'None'",
+                       "'True'",
+                       "'['",
+                       "'not'",
+                       "'{'",
+                       "'~'",
+                       'NAME',
+                       'NUMBER',
+                       'STRING'}),
+ 'parameters': frozenset({"'('"}),
+ 'pass_stmt': frozenset({"'pass'"}),
+ 'power': frozenset({"'('",
+                     "'...'",
+                     "'False'",
+                     "'None'",
+                     "'True'",
+                     "'['",
+                     "'{'",
+                     'NAME',
+                     'NUMBER',
+                     'STRING'}),
+ 'raise_stmt': frozenset({"'raise'"}),
+ 'return_stmt': frozenset({"'return'"}),
+ 'shift_expr': frozenset({"'('",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'{'",
+                          "'~'",
+                          'NAME',
+                          'NUMBER',
+                          'STRING'}),
+ 'simple_stmt': frozenset({"'('",
+                           "'*'",
+                           "'+'",
+                           "'-'",
+                           "'...'",
+                           "'False'",
+                           "'None'",
+                           "'True'",
+                           "'['",
+                           "'assert'",
+                           "'break'",
+                           "'continue'",
+                           "'del'",
+                           "'from'",
+                           "'global'",
+                           "'import'",
+                           "'lambda'",
+                           "'nonlocal'",
+                           "'not'",
+                           "'pass'",
+                           "'raise'",
+                           "'return'",
+                           "'yield'",
+                           "'{'",
+                           "'~'",
+                           'NAME',
+                           'NUMBER',
+                           'STRING'}),
+ 'single_input': frozenset({"'('",
+                            "'*'",
+                            "'+'",
+                            "'-'",
+                            "'...'",
+                            "'@'",
+                            "'False'",
+                            "'None'",
+                            "'True'",
+                            "'['",
+                            "'assert'",
+                            "'break'",
+                            "'class'",
+                            "'continue'",
+                            "'def'",
+                            "'del'",
+                            "'for'",
+                            "'from'",
+                            "'global'",
+                            "'if'",
+                            "'import'",
+                            "'lambda'",
+                            "'nonlocal'",
+                            "'not'",
+                            "'pass'",
+                            "'raise'",
+                            "'return'",
+                            "'try'",
+                            "'while'",
+                            "'with'",
+                            "'yield'",
+                            "'{'",
+                            "'~'",
+                            'NAME',
+                            'NEWLINE',
+                            'NUMBER',
+                            'STRING'}),
+ 'sliceop': frozenset({"':'"}),
+ 'small_stmt': frozenset({"'('",
+                          "'*'",
+                          "'+'",
+                          "'-'",
+                          "'...'",
+                          "'False'",
+                          "'None'",
+                          "'True'",
+                          "'['",
+                          "'assert'",
+                          "'break'",
+                          "'continue'",
+                          "'del'",
+                          "'from'",
+                          "'global'",
+                          "'import'",
+                          "'lambda'",
+                          "'nonlocal'",
+                          "'not'",
+                          "'pass'",
+                          "'raise'",
+                          "'return'",
+                          "'yield'",
+                          "'{'",
+                          "'~'",
+                          'NAME',
+                          'NUMBER',
+                          'STRING'}),
+ 'star_expr': frozenset({"'*'"}),
+ 'stmt': frozenset({"'('",
+                    "'*'",
+                    "'+'",
+                    "'-'",
+                    "'...'",
+                    "'@'",
+                    "'False'",
+                    "'None'",
+                    "'True'",
+                    "'['",
+                    "'assert'",
+                    "'break'",
+                    "'class'",
+                    "'continue'",
+                    "'def'",
+                    "'del'",
+                    "'for'",
+                    "'from'",
+                    "'global'",
+                    "'if'",
+                    "'import'",
+                    "'lambda'",
+                    "'nonlocal'",
+                    "'not'",
+                    "'pass'",
+                    "'raise'",
+                    "'return'",
+                    "'try'",
+                    "'while'",
+                    "'with'",
+                    "'yield'",
+                    "'{'",
+                    "'~'",
+                    'NAME',
+                    'NUMBER',
+                    'STRING'}),
+ 'subscript': frozenset({"'('",
+                         "'+'",
+                         "'-'",
+                         "'...'",
+                         "':'",
+                         "'False'",
+                         "'None'",
+                         "'True'",
+                         "'['",
+                         "'lambda'",
+                         "'not'",
+                         "'{'",
+                         "'~'",
+                         'NAME',
+                         'NUMBER',
+                         'STRING'}),
+ 'subscriptlist': frozenset({"'('",
+                             "'+'",
+                             "'-'",
+                             "'...'",
+                             "':'",
+                             "'False'",
+                             "'None'",
+                             "'True'",
+                             "'['",
+                             "'lambda'",
+                             "'not'",
+                             "'{'",
+                             "'~'",
+                             'NAME',
+                             'NUMBER',
+                             'STRING'}),
+ 'suite': frozenset({"'('",
+                     "'*'",
+                     "'+'",
+                     "'-'",
+                     "'...'",
+                     "'False'",
+                     "'None'",
+                     "'True'",
+                     "'['",
+                     "'assert'",
+                     "'break'",
+                     "'continue'",
+                     "'del'",
+                     "'from'",
+                     "'global'",
+                     "'import'",
+                     "'lambda'",
+                     "'nonlocal'",
+                     "'not'",
+                     "'pass'",
+                     "'raise'",
+                     "'return'",
+                     "'yield'",
+                     "'{'",
+                     "'~'",
+                     'NAME',
+                     'NEWLINE',
+                     'NUMBER',
+                     'STRING'}),
+ 'term': frozenset({"'('",
+                    "'+'",
+                    "'-'",
+                    "'...'",
+                    "'False'",
+                    "'None'",
+                    "'True'",
+                    "'['",
+                    "'{'",
+                    "'~'",
+                    'NAME',
+                    'NUMBER',
+                    'STRING'}),
+ 'test': frozenset({"'('",
+                    "'+'",
+                    "'-'",
+                    "'...'",
+                    "'False'",
+                    "'None'",
+                    "'True'",
+                    "'['",
+                    "'lambda'",
+                    "'not'",
+                    "'{'",
+                    "'~'",
+                    'NAME',
+                    'NUMBER',
+                    'STRING'}),
+ 'test_nocond': frozenset({"'('",
+                           "'+'",
+                           "'-'",
+                           "'...'",
+                           "'False'",
+                           "'None'",
+                           "'True'",
+                           "'['",
+                           "'lambda'",
+                           "'not'",
+                           "'{'",
+                           "'~'",
+                           'NAME',
+                           'NUMBER',
+                           'STRING'}),
+ 'testlist': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'lambda'",
+                        "'not'",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'testlist_comp': frozenset({"'('",
+                             "'*'",
+                             "'+'",
+                             "'-'",
+                             "'...'",
+                             "'False'",
+                             "'None'",
+                             "'True'",
+                             "'['",
+                             "'lambda'",
+                             "'not'",
+                             "'{'",
+                             "'~'",
+                             'NAME',
+                             'NUMBER',
+                             'STRING'}),
+ 'testlist_star_expr': frozenset({"'('",
+                                  "'*'",
+                                  "'+'",
+                                  "'-'",
+                                  "'...'",
+                                  "'False'",
+                                  "'None'",
+                                  "'True'",
+                                  "'['",
+                                  "'lambda'",
+                                  "'not'",
+                                  "'{'",
+                                  "'~'",
+                                  'NAME',
+                                  'NUMBER',
+                                  'STRING'}),
+ 'tfpdef': frozenset({'NAME'}),
+ 'trailer': frozenset({"'('", "'.'", "'['"}),
+ 'try_stmt': frozenset({"'try'"}),
+ 'typedargslist': frozenset({"'*'", 'NAME', "'**'"}),
+ 'varargslist': frozenset({"'*'", 'NAME', "'**'"}),
+ 'vfpdef': frozenset({'NAME'}),
+ 'while_stmt': frozenset({"'while'"}),
+ 'with_item': frozenset({"'('",
+                         "'+'",
+                         "'-'",
+                         "'...'",
+                         "'False'",
+                         "'None'",
+                         "'True'",
+                         "'['",
+                         "'lambda'",
+                         "'not'",
+                         "'{'",
+                         "'~'",
+                         'NAME',
+                         'NUMBER',
+                         'STRING'}),
+ 'with_stmt': frozenset({"'with'"}),
+ 'xor_expr': frozenset({"'('",
+                        "'+'",
+                        "'-'",
+                        "'...'",
+                        "'False'",
+                        "'None'",
+                        "'True'",
+                        "'['",
+                        "'{'",
+                        "'~'",
+                        'NAME',
+                        'NUMBER',
+                        'STRING'}),
+ 'yield_arg': frozenset({"'('",
+                         "'+'",
+                         "'-'",
+                         "'...'",
+                         "'False'",
+                         "'None'",
+                         "'True'",
+                         "'['",
+                         "'from'",
+                         "'lambda'",
+                         "'not'",
+                         "'{'",
+                         "'~'",
+                         'NAME',
+                         'NUMBER',
+                         'STRING'}),
+ 'yield_expr': frozenset({"'yield'"}),
+ 'yield_stmt': frozenset({"'yield'"})}
+
+TABLE=[frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'@'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'assert'",
+            "'break'",
+            "'class'",
+            "'continue'",
+            "'def'",
+            "'del'",
+            "'for'",
+            "'from'",
+            "'global'",
+            "'if'",
+            "'import'",
+            "'lambda'",
+            "'nonlocal'",
+            "'not'",
+            "'pass'",
+            "'raise'",
+            "'return'",
+            "'try'",
+            "'while'",
+            "'with'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NEWLINE',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'@'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'assert'",
+            "'break'",
+            "'class'",
+            "'continue'",
+            "'def'",
+            "'del'",
+            "'for'",
+            "'from'",
+            "'global'",
+            "'if'",
+            "'import'",
+            "'lambda'",
+            "'nonlocal'",
+            "'not'",
+            "'pass'",
+            "'raise'",
+            "'return'",
+            "'try'",
+            "'while'",
+            "'with'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NEWLINE',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'def'", "'class'"}),
+ frozenset({"'*'", "'**'"}),
+ frozenset({"'*'", 'NAME', "'**'"}),
+ frozenset({"'*'", "'**'"}),
+ frozenset({"'*'", 'NAME', "'**'"}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'@'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'assert'",
+            "'break'",
+            "'class'",
+            "'continue'",
+            "'def'",
+            "'del'",
+            "'for'",
+            "'from'",
+            "'global'",
+            "'if'",
+            "'import'",
+            "'lambda'",
+            "'nonlocal'",
+            "'not'",
+            "'pass'",
+            "'raise'",
+            "'return'",
+            "'try'",
+            "'while'",
+            "'with'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'assert'",
+            "'break'",
+            "'continue'",
+            "'del'",
+            "'from'",
+            "'global'",
+            "'import'",
+            "'lambda'",
+            "'nonlocal'",
+            "'not'",
+            "'pass'",
+            "'raise'",
+            "'return'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'%='",
+            "'&='",
+            "'**='",
+            "'*='",
+            "'+='",
+            "'-='",
+            "'//='",
+            "'/='",
+            "'<<='",
+            "'='",
+            "'>>='",
+            "'^='",
+            "'|='",
+            'EPS'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'%='",
+            "'&='",
+            "'**='",
+            "'*='",
+            "'+='",
+            "'-='",
+            "'//='",
+            "'/='",
+            "'<<='",
+            "'>>='",
+            "'^='",
+            "'|='"}),
+ frozenset({"'break'", "'continue'", "'raise'", "'yield'", "'return'"}),
+ frozenset({"'import'", "'from'"}),
+ frozenset({"'...'", "'.'"}),
+ frozenset({"'...'", "'.'"}),
+ frozenset({"'.'", "'...'", 'EPS', 'NAME'}),
+ frozenset({"'*'", "'('", 'NAME'}),
+ frozenset({"'@'",
+            "'class'",
+            "'def'",
+            "'for'",
+            "'if'",
+            "'try'",
+            "'while'",
+            "'with'"}),
+ frozenset({"'else'", 'EPS', "'finally'", "'except'"}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'assert'",
+            "'break'",
+            "'continue'",
+            "'del'",
+            "'from'",
+            "'global'",
+            "'import'",
+            "'lambda'",
+            "'nonlocal'",
+            "'not'",
+            "'pass'",
+            "'raise'",
+            "'return'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NEWLINE',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'!='",
+            "'<'",
+            "'<='",
+            "'<>'",
+            "'=='",
+            "'>'",
+            "'>='",
+            "'in'",
+            "'is'",
+            "'not'"}),
+ frozenset({"'>>'", "'<<'"}),
+ frozenset({"'-'", "'+'"}),
+ frozenset({"'//'", "'*'", "'/'", "'%'"}),
+ frozenset({"'-'", "'~'", "'+'"}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'yield'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'{'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'for'", 'EPS', "','"}),
+ frozenset({"'('", "'.'", "'['"}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "':'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'for'", 'EPS', "','"}),
+ frozenset({"'for'", 'EPS', "','"}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'*'",
+            "'**'",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'}),
+ frozenset({"'for'", "'if'"}),
+ frozenset({"'('",
+            "'+'",
+            "'-'",
+            "'...'",
+            "'False'",
+            "'None'",
+            "'True'",
+            "'['",
+            "'from'",
+            "'lambda'",
+            "'not'",
+            "'{'",
+            "'~'",
+            'NAME',
+            'NUMBER',
+            'STRING'})]
+
 class parser(parserbase.parser_base):
     def __init__(self, toks):
         parserbase.parser_base.__init__(self, toks)
@@ -143,16 +1338,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[0]) and not ('EPS' in TABLE[0]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_6(node) # (1, 2, 1), GrammarNode('S', ['compound_stmt', 'NEWLINE'])
+        c = self.parsehelper_6(node) # (1, 2, 1), GrammarNode('S', ['compound_stmt', 'NEWLINE']) FIRST: frozenset({"'with'", "'def'", "'class'", "'for'", "'if'", "'@'", "'try'", "'while'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_2(node) # (1, 1, 1), GrammarNode('S', ['NEWLINE'])
+        c = self.parsehelper_2(node) # (1, 1, 1), GrammarNode('S', ['NEWLINE']) FIRST: frozenset({'NEWLINE'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_4(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt'])
+        c = self.parsehelper_4(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt']) FIRST: frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'*'", "'nonlocal'", "'...'", 'STRING', "'return'", "'assert'", 'NAME', "'global'", "'False'", "'pass'", "'import'", "'-'", "'yield'", "'del'", "'('", "'from'", "'['", "'break'", "'continue'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -168,8 +1366,7 @@ class parser(parserbase.parser_base):
         'NEWLINE'])])]
         """
         node = astnode('single_input')
-        first = frozenset({"'def'", "'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'class'", "'lambda'", "'*'", "'nonlocal'", "'...'", "'try'", "'while'", 'STRING', "'return'", "'assert'", 'NAME', "'global'", "'del'", "'pass'", 'NEWLINE', "'-'", "'yield'", "'import'", "'False'", "'for'", "'('", "'from'", "'if'", "'['", "'break'", "'continue'", "'@'", "'with'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['single_input']):
             return None
         #
         startpos = self.pos
@@ -254,12 +1451,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[1]) and not ('EPS' in TABLE[1]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_12(node) # (1, 1, 1), GrammarNode('S', ['NEWLINE'])
+        c = self.parsehelper_12(node) # (1, 1, 1), GrammarNode('S', ['NEWLINE']) FIRST: frozenset({'NEWLINE'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_14(node) # (1, 1, 0), GrammarNode('S', ['stmt'])
+        c = self.parsehelper_14(node) # (1, 1, 0), GrammarNode('S', ['stmt']) FIRST: frozenset({"'True'", "'~'", 'NUMBER', "'def'", "'...'", "'try'", "'return'", "'assert'", "'False'", "'import'", "'yield'", "'('", "'break'", "'*'", "'@'", "'raise'", 'STRING', "'not'", "'None'", "'{'", "'class'", "'lambda'", "'continue'", "'nonlocal'", "'while'", 'NAME', "'del'", "'pass'", "'-'", "'['", "'global'", "'for'", "'from'", "'if'", "'with'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -331,8 +1531,7 @@ class parser(parserbase.parser_base):
         ['stmt'])])), 'ENDMARKER'])]
         """
         node = astnode('file_input')
-        first = frozenset({"'import'", "'True'", "'~'", 'NUMBER', "'def'", 'ENDMARKER', "'...'", "'try'", "'return'", "'assert'", "'False'", 'NEWLINE', "'yield'", "'('", "'break'", "'*'", "'@'", "'raise'", 'STRING', "'not'", "'None'", "'{'", "'class'", "'lambda'", "'continue'", "'nonlocal'", "'while'", 'NAME', "'del'", "'pass'", "'-'", "'['", "'global'", "'for'", "'from'", "'if'", "'with'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['file_input']):
             return None
         #
         startpos = self.pos
@@ -461,8 +1660,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['NEWLINE'])), 'ENDMARKER'])]
         """
         node = astnode('eval_input')
-        first = frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['eval_input']):
             return None
         #
         startpos = self.pos
@@ -680,8 +1878,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['arglist'])), "')'"])), 'NEWLINE'])]
         """
         node = astnode('decorator')
-        first = frozenset({"'@'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['decorator']):
             return None
         #
         startpos = self.pos
@@ -775,8 +1972,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['decorator']))])]
         """
         node = astnode('decorators')
-        first = frozenset({"'@'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['decorators']):
             return None
         #
         startpos = self.pos
@@ -875,12 +2071,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[2]) and not ('EPS' in TABLE[2]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_41(node) # (1, 1, 1), GrammarNode('S', ['classdef'])
+        c = self.parsehelper_41(node) # (1, 1, 1), GrammarNode('S', ['classdef']) FIRST: frozenset({"'class'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_43(node) # (1, 1, 1), GrammarNode('S', ['funcdef'])
+        c = self.parsehelper_43(node) # (1, 1, 1), GrammarNode('S', ['funcdef']) FIRST: frozenset({"'def'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -919,8 +2118,7 @@ class parser(parserbase.parser_base):
         [GrammarNode('S', ['classdef']), GrammarNode('S', ['funcdef'])])])]
         """
         node = astnode('decorated')
-        first = frozenset({"'@'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['decorated']):
             return None
         #
         startpos = self.pos
@@ -1126,8 +2324,7 @@ class parser(parserbase.parser_base):
         'suite'])]
         """
         node = astnode('funcdef')
-        first = frozenset({"'def'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['funcdef']):
             return None
         #
         startpos = self.pos
@@ -1252,8 +2449,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['typedargslist'])), "')'"])]
         """
         node = astnode('parameters')
-        first = frozenset({"'('"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['parameters']):
             return None
         #
         startpos = self.pos
@@ -1886,12 +3082,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[3]) and not ('EPS' in TABLE[3]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_82(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))])
+        c = self.parsehelper_82(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_100(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'tfpdef'])
+        c = self.parsehelper_100(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'tfpdef']) FIRST: frozenset({"'**'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -2370,16 +3569,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[4]) and not ('EPS' in TABLE[4]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_103(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))])
+        c = self.parsehelper_103(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_63(node) # (1, 4, 0), GrammarNode('S', ['tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))]), GrammarNode('S', ["'**'", 'tfpdef'])]))]))])
+        c = self.parsehelper_63(node) # (1, 4, 0), GrammarNode('S', ['tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['tfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'tfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'tfpdef']))]), GrammarNode('S', ["'**'", 'tfpdef'])]))]))]) FIRST: frozenset({'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_121(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'tfpdef'])
+        c = self.parsehelper_121(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'tfpdef']) FIRST: frozenset({"'**'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -2427,8 +3629,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'**'", 'tfpdef'])])])]
         """
         node = astnode('typedargslist')
-        first = frozenset({"'*'", 'NAME', "'**'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['typedargslist']):
             return None
         #
         startpos = self.pos
@@ -2553,8 +3754,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["':'", 'test']))])]
         """
         node = astnode('tfpdef')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['tfpdef']):
             return None
         #
         startpos = self.pos
@@ -3187,12 +4387,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[5]) and not ('EPS' in TABLE[5]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_151(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))])
+        c = self.parsehelper_151(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_169(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'vfpdef'])
+        c = self.parsehelper_169(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'vfpdef']) FIRST: frozenset({"'**'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -3671,16 +4874,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[6]) and not ('EPS' in TABLE[6]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_172(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))])
+        c = self.parsehelper_172(node) # (1, 4, 1), GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_132(node) # (1, 4, 0), GrammarNode('S', ['vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))]), GrammarNode('S', ["'**'", 'vfpdef'])]))]))])
+        c = self.parsehelper_132(node) # (1, 4, 0), GrammarNode('S', ['vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ["'*'", GrammarNode('[', GrammarNode('S', ['vfpdef'])), GrammarNode('*', GrammarNode('S', ["','", 'vfpdef', GrammarNode('[', GrammarNode('S', ["'='", 'test']))])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'vfpdef']))]), GrammarNode('S', ["'**'", 'vfpdef'])]))]))]) FIRST: frozenset({'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_190(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'vfpdef'])
+        c = self.parsehelper_190(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'vfpdef']) FIRST: frozenset({"'**'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -3728,8 +4934,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'**'", 'vfpdef'])])])]
         """
         node = astnode('varargslist')
-        first = frozenset({"'*'", 'NAME', "'**'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['varargslist']):
             return None
         #
         startpos = self.pos
@@ -3781,8 +4986,7 @@ class parser(parserbase.parser_base):
         ['vfpdef', ':', GrammarNode('S', ['NAME'])]
         """
         node = astnode('vfpdef')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['vfpdef']):
             return None
         #
         startpos = self.pos
@@ -3867,12 +5071,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[7]) and not ('EPS' in TABLE[7]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_198(node) # (1, 1, 1), GrammarNode('S', ['compound_stmt'])
+        c = self.parsehelper_198(node) # (1, 1, 1), GrammarNode('S', ['compound_stmt']) FIRST: frozenset({"'with'", "'def'", "'class'", "'for'", "'if'", "'@'", "'try'", "'while'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_196(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt'])
+        c = self.parsehelper_196(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt']) FIRST: frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'*'", "'nonlocal'", "'...'", 'STRING', "'return'", "'assert'", 'NAME', "'global'", "'False'", "'pass'", "'import'", "'-'", "'yield'", "'del'", "'('", "'from'", "'['", "'break'", "'continue'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -3887,8 +5094,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['compound_stmt'])])]
         """
         node = astnode('stmt')
-        first = frozenset({"'def'", "'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'class'", "'del'", "'lambda'", "'*'", "'nonlocal'", "'...'", "'try'", "'while'", 'STRING', "'return'", "'assert'", 'NAME', "'False'", "'pass'", "'import'", "'-'", "'yield'", "'global'", "'for'", "'('", "'from'", "'if'", "'['", "'break'", "'continue'", "'@'", "'with'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['stmt']):
             return None
         #
         startpos = self.pos
@@ -4090,8 +5296,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["';'"])), 'NEWLINE'])]
         """
         node = astnode('simple_stmt')
-        first = frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'continue'", "'nonlocal'", "'...'", 'STRING', "'return'", "'False'", "'assert'", 'NAME', "'del'", "'pass'", "'import'", "'-'", "'yield'", "'global'", "'('", "'from'", "'['", "'break'", "'*'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['simple_stmt']):
             return None
         #
         startpos = self.pos
@@ -4368,36 +5573,39 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[8]) and not ('EPS' in TABLE[8]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_214(node) # (1, 1, 1), GrammarNode('S', ['del_stmt'])
+        c = self.parsehelper_214(node) # (1, 1, 1), GrammarNode('S', ['del_stmt']) FIRST: frozenset({"'del'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_216(node) # (1, 1, 1), GrammarNode('S', ['pass_stmt'])
+        c = self.parsehelper_216(node) # (1, 1, 1), GrammarNode('S', ['pass_stmt']) FIRST: frozenset({"'pass'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_218(node) # (1, 1, 1), GrammarNode('S', ['flow_stmt'])
+        c = self.parsehelper_218(node) # (1, 1, 1), GrammarNode('S', ['flow_stmt']) FIRST: frozenset({"'break'", "'continue'", "'raise'", "'yield'", "'return'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_220(node) # (1, 1, 1), GrammarNode('S', ['import_stmt'])
+        c = self.parsehelper_220(node) # (1, 1, 1), GrammarNode('S', ['import_stmt']) FIRST: frozenset({"'import'", "'from'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_222(node) # (1, 1, 1), GrammarNode('S', ['global_stmt'])
+        c = self.parsehelper_222(node) # (1, 1, 1), GrammarNode('S', ['global_stmt']) FIRST: frozenset({"'global'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_224(node) # (1, 1, 1), GrammarNode('S', ['nonlocal_stmt'])
+        c = self.parsehelper_224(node) # (1, 1, 1), GrammarNode('S', ['nonlocal_stmt']) FIRST: frozenset({"'nonlocal'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_226(node) # (1, 1, 1), GrammarNode('S', ['assert_stmt'])
+        c = self.parsehelper_226(node) # (1, 1, 1), GrammarNode('S', ['assert_stmt']) FIRST: frozenset({"'assert'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_212(node) # (1, 1, 0), GrammarNode('S', ['expr_stmt'])
+        c = self.parsehelper_212(node) # (1, 1, 0), GrammarNode('S', ['expr_stmt']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -4435,8 +5643,7 @@ class parser(parserbase.parser_base):
         ['assert_stmt'])])])]
         """
         node = astnode('small_stmt')
-        first = frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'*'", "'nonlocal'", "'...'", 'STRING', "'return'", "'assert'", 'NAME', "'global'", "'del'", "'pass'", "'import'", "'-'", "'yield'", "'False'", "'('", "'from'", "'['", "'break'", "'continue'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['small_stmt']):
             return None
         #
         startpos = self.pos
@@ -4549,12 +5756,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[9]) and not ('EPS' in TABLE[9]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_234(node) # (1, 1, 1), GrammarNode('S', ['yield_expr'])
+        c = self.parsehelper_234(node) # (1, 1, 1), GrammarNode('S', ['yield_expr']) FIRST: frozenset({"'yield'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_236(node) # (1, 1, 0), GrammarNode('S', ['testlist'])
+        c = self.parsehelper_236(node) # (1, 1, 0), GrammarNode('S', ['testlist']) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -4671,12 +5881,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[10]) and not ('EPS' in TABLE[10]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_243(node) # (1, 1, 1), GrammarNode('S', ['yield_expr'])
+        c = self.parsehelper_243(node) # (1, 1, 1), GrammarNode('S', ['yield_expr']) FIRST: frozenset({"'yield'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_245(node) # (1, 1, 0), GrammarNode('S', ['testlist_star_expr'])
+        c = self.parsehelper_245(node) # (1, 1, 0), GrammarNode('S', ['testlist_star_expr']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -4751,12 +5964,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[11]) and not ('EPS' in TABLE[11]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_231(node) # (1, 2, 1), GrammarNode('S', ['augassign', GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist'])])])
+        c = self.parsehelper_231(node) # (1, 2, 1), GrammarNode('S', ['augassign', GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist'])])]) FIRST: frozenset({"'>>='", "'*='", "'%='", "'**='", "'&='", "'|='", "'+='", "'^='", "'//='", "'/='", "'-='", "'<<='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_238(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["'='", GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist_star_expr'])])]))])
+        c = self.parsehelper_238(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["'='", GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist_star_expr'])])]))]) FIRST: frozenset({"'='", 'EPS'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -4800,8 +6016,7 @@ class parser(parserbase.parser_base):
         ['testlist_star_expr'])])]))])])])]
         """
         node = astnode('expr_stmt')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['expr_stmt']):
             return None
         #
         startpos = self.pos
@@ -4886,12 +6101,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[12]) and not ('EPS' in TABLE[12]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_251(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_251(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_249(node) # (1, 1, 0), GrammarNode('S', ['test'])
+        c = self.parsehelper_249(node) # (1, 1, 0), GrammarNode('S', ['test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -4984,12 +6202,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[13]) and not ('EPS' in TABLE[13]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_259(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_259(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_257(node) # (1, 1, 0), GrammarNode('S', ['test'])
+        c = self.parsehelper_257(node) # (1, 1, 0), GrammarNode('S', ['test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -5125,8 +6346,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ["','"]))])]
         """
         node = astnode('testlist_star_expr')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['testlist_star_expr']):
             return None
         #
         startpos = self.pos
@@ -5531,52 +6751,55 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[14]) and not ('EPS' in TABLE[14]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_266(node) # (1, 1, 1), GrammarNode('S', ["'+='"])
+        c = self.parsehelper_266(node) # (1, 1, 1), GrammarNode('S', ["'+='"]) FIRST: frozenset({"'+='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_268(node) # (1, 1, 1), GrammarNode('S', ["'-='"])
+        c = self.parsehelper_268(node) # (1, 1, 1), GrammarNode('S', ["'-='"]) FIRST: frozenset({"'-='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_270(node) # (1, 1, 1), GrammarNode('S', ["'*='"])
+        c = self.parsehelper_270(node) # (1, 1, 1), GrammarNode('S', ["'*='"]) FIRST: frozenset({"'*='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_272(node) # (1, 1, 1), GrammarNode('S', ["'/='"])
+        c = self.parsehelper_272(node) # (1, 1, 1), GrammarNode('S', ["'/='"]) FIRST: frozenset({"'/='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_274(node) # (1, 1, 1), GrammarNode('S', ["'%='"])
+        c = self.parsehelper_274(node) # (1, 1, 1), GrammarNode('S', ["'%='"]) FIRST: frozenset({"'%='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_276(node) # (1, 1, 1), GrammarNode('S', ["'&='"])
+        c = self.parsehelper_276(node) # (1, 1, 1), GrammarNode('S', ["'&='"]) FIRST: frozenset({"'&='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_278(node) # (1, 1, 1), GrammarNode('S', ["'|='"])
+        c = self.parsehelper_278(node) # (1, 1, 1), GrammarNode('S', ["'|='"]) FIRST: frozenset({"'|='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_280(node) # (1, 1, 1), GrammarNode('S', ["'^='"])
+        c = self.parsehelper_280(node) # (1, 1, 1), GrammarNode('S', ["'^='"]) FIRST: frozenset({"'^='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_282(node) # (1, 1, 1), GrammarNode('S', ["'<<='"])
+        c = self.parsehelper_282(node) # (1, 1, 1), GrammarNode('S', ["'<<='"]) FIRST: frozenset({"'<<='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_284(node) # (1, 1, 1), GrammarNode('S', ["'>>='"])
+        c = self.parsehelper_284(node) # (1, 1, 1), GrammarNode('S', ["'>>='"]) FIRST: frozenset({"'>>='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_286(node) # (1, 1, 1), GrammarNode('S', ["'**='"])
+        c = self.parsehelper_286(node) # (1, 1, 1), GrammarNode('S', ["'**='"]) FIRST: frozenset({"'**='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_288(node) # (1, 1, 1), GrammarNode('S', ["'//='"])
+        c = self.parsehelper_288(node) # (1, 1, 1), GrammarNode('S', ["'//='"]) FIRST: frozenset({"'//='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -5615,8 +6838,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'**='"]), GrammarNode('S', ["'//='"])])])]
         """
         node = astnode('augassign')
-        first = frozenset({"'>>='", "'*='", "'%='", "'**='", "'&='", "'|='", "'+='", "'^='", "'//='", "'/='", "'-='", "'<<='"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['augassign']):
             return None
         #
         startpos = self.pos
@@ -5688,8 +6910,7 @@ class parser(parserbase.parser_base):
         ['del_stmt', ':', GrammarNode('S', ["'del'", 'exprlist'])]
         """
         node = astnode('del_stmt')
-        first = frozenset({"'del'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['del_stmt']):
             return None
         #
         startpos = self.pos
@@ -5741,8 +6962,7 @@ class parser(parserbase.parser_base):
         ['pass_stmt', ':', GrammarNode('S', ["'pass'"])]
         """
         node = astnode('pass_stmt')
-        first = frozenset({"'pass'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['pass_stmt']):
             return None
         #
         startpos = self.pos
@@ -5923,24 +7143,27 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[15]) and not ('EPS' in TABLE[15]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_296(node) # (1, 1, 1), GrammarNode('S', ['break_stmt'])
+        c = self.parsehelper_296(node) # (1, 1, 1), GrammarNode('S', ['break_stmt']) FIRST: frozenset({"'break'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_298(node) # (1, 1, 1), GrammarNode('S', ['continue_stmt'])
+        c = self.parsehelper_298(node) # (1, 1, 1), GrammarNode('S', ['continue_stmt']) FIRST: frozenset({"'continue'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_300(node) # (1, 1, 1), GrammarNode('S', ['return_stmt'])
+        c = self.parsehelper_300(node) # (1, 1, 1), GrammarNode('S', ['return_stmt']) FIRST: frozenset({"'return'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_302(node) # (1, 1, 1), GrammarNode('S', ['raise_stmt'])
+        c = self.parsehelper_302(node) # (1, 1, 1), GrammarNode('S', ['raise_stmt']) FIRST: frozenset({"'raise'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_304(node) # (1, 1, 1), GrammarNode('S', ['yield_stmt'])
+        c = self.parsehelper_304(node) # (1, 1, 1), GrammarNode('S', ['yield_stmt']) FIRST: frozenset({"'yield'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -5958,8 +7181,7 @@ class parser(parserbase.parser_base):
         ['yield_stmt'])])]
         """
         node = astnode('flow_stmt')
-        first = frozenset({"'break'", "'continue'", "'raise'", "'yield'", "'return'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['flow_stmt']):
             return None
         #
         startpos = self.pos
@@ -6011,8 +7233,7 @@ class parser(parserbase.parser_base):
         ['break_stmt', ':', GrammarNode('S', ["'break'"])]
         """
         node = astnode('break_stmt')
-        first = frozenset({"'break'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['break_stmt']):
             return None
         #
         startpos = self.pos
@@ -6064,8 +7285,7 @@ class parser(parserbase.parser_base):
         ['continue_stmt', ':', GrammarNode('S', ["'continue'"])]
         """
         node = astnode('continue_stmt')
-        first = frozenset({"'continue'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['continue_stmt']):
             return None
         #
         startpos = self.pos
@@ -6170,8 +7390,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['testlist']))])]
         """
         node = astnode('return_stmt')
-        first = frozenset({"'return'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['return_stmt']):
             return None
         #
         startpos = self.pos
@@ -6223,8 +7442,7 @@ class parser(parserbase.parser_base):
         ['yield_stmt', ':', GrammarNode('S', ['yield_expr'])]
         """
         node = astnode('yield_stmt')
-        first = frozenset({"'yield'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['yield_stmt']):
             return None
         #
         startpos = self.pos
@@ -6402,8 +7620,7 @@ class parser(parserbase.parser_base):
         'test']))]))])]
         """
         node = astnode('raise_stmt')
-        first = frozenset({"'raise'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['raise_stmt']):
             return None
         #
         startpos = self.pos
@@ -6488,12 +7705,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[16]) and not ('EPS' in TABLE[16]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_327(node) # (1, 1, 1), GrammarNode('S', ['import_name'])
+        c = self.parsehelper_327(node) # (1, 1, 1), GrammarNode('S', ['import_name']) FIRST: frozenset({"'import'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_329(node) # (1, 1, 1), GrammarNode('S', ['import_from'])
+        c = self.parsehelper_329(node) # (1, 1, 1), GrammarNode('S', ['import_from']) FIRST: frozenset({"'from'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -6508,8 +7728,7 @@ class parser(parserbase.parser_base):
         ['import_name']), GrammarNode('S', ['import_from'])])]
         """
         node = astnode('import_stmt')
-        first = frozenset({"'import'", "'from'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['import_stmt']):
             return None
         #
         startpos = self.pos
@@ -6582,8 +7801,7 @@ class parser(parserbase.parser_base):
         'dotted_as_names'])]
         """
         node = astnode('import_name')
-        first = frozenset({"'import'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['import_name']):
             return None
         #
         startpos = self.pos
@@ -6682,12 +7900,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[17]) and not ('EPS' in TABLE[17]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_341(node) # (1, 1, 1), GrammarNode('S', ["'.'"])
+        c = self.parsehelper_341(node) # (1, 1, 1), GrammarNode('S', ["'.'"]) FIRST: frozenset({"'.'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_343(node) # (1, 1, 1), GrammarNode('S', ["'...'"])
+        c = self.parsehelper_343(node) # (1, 1, 1), GrammarNode('S', ["'...'"]) FIRST: frozenset({"'...'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -6822,12 +8043,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[18]) and not ('EPS' in TABLE[18]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_349(node) # (1, 1, 1), GrammarNode('S', ["'.'"])
+        c = self.parsehelper_349(node) # (1, 1, 1), GrammarNode('S', ["'.'"]) FIRST: frozenset({"'.'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_351(node) # (1, 1, 1), GrammarNode('S', ["'...'"])
+        c = self.parsehelper_351(node) # (1, 1, 1), GrammarNode('S', ["'...'"]) FIRST: frozenset({"'...'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -6878,12 +8102,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[19]) and not ('EPS' in TABLE[19]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_338(node) # (1, 2, 0), GrammarNode('S', [GrammarNode('*', GrammarNode('A', [GrammarNode('S', ["'.'"]), GrammarNode('S', ["'...'"])])), 'dotted_name'])
+        c = self.parsehelper_338(node) # (1, 2, 0), GrammarNode('S', [GrammarNode('*', GrammarNode('A', [GrammarNode('S', ["'.'"]), GrammarNode('S', ["'...'"])])), 'dotted_name']) FIRST: frozenset({"'...'", "'.'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_346(node) # (0, 1, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('A', [GrammarNode('S', ["'.'"]), GrammarNode('S', ["'...'"])]))])
+        c = self.parsehelper_346(node) # (0, 1, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('A', [GrammarNode('S', ["'.'"]), GrammarNode('S', ["'...'"])]))]) FIRST: frozenset({"'...'", "'.'", 'EPS'}) INTERSECTION: YES (0, frozenset({"'...'", "'.'"}))
         if c is not None:
             return c
 
@@ -7048,16 +8275,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[20]) and not ('EPS' in TABLE[20]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_357(node) # (1, 3, 1), GrammarNode('S', ["'('", 'import_as_names', "')'"])
+        c = self.parsehelper_357(node) # (1, 3, 1), GrammarNode('S', ["'('", 'import_as_names', "')'"]) FIRST: frozenset({"'('"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_355(node) # (1, 1, 1), GrammarNode('S', ["'*'"])
+        c = self.parsehelper_355(node) # (1, 1, 1), GrammarNode('S', ["'*'"]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_361(node) # (1, 1, 0), GrammarNode('S', ['import_as_names'])
+        c = self.parsehelper_361(node) # (1, 1, 0), GrammarNode('S', ['import_as_names']) FIRST: frozenset({'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -7133,8 +8363,7 @@ class parser(parserbase.parser_base):
         ['import_as_names'])])])])]
         """
         node = astnode('import_from')
-        first = frozenset({"'from'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['import_from']):
             return None
         #
         startpos = self.pos
@@ -7259,8 +8488,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'as'", 'NAME']))])]
         """
         node = astnode('import_as_name')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['import_as_name']):
             return None
         #
         startpos = self.pos
@@ -7385,8 +8613,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ["'as'", 'NAME']))])]
         """
         node = astnode('dotted_as_name')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['dotted_as_name']):
             return None
         #
         startpos = self.pos
@@ -7568,8 +8795,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ["','"]))])]
         """
         node = astnode('import_as_names')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['import_as_names']):
             return None
         #
         startpos = self.pos
@@ -7698,8 +8924,7 @@ class parser(parserbase.parser_base):
         GrammarNode('*', GrammarNode('S', ["','", 'dotted_as_name']))])]
         """
         node = astnode('dotted_as_names')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['dotted_as_names']):
             return None
         #
         startpos = self.pos
@@ -7828,8 +9053,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'.'", 'NAME']))])]
         """
         node = astnode('dotted_name')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['dotted_name']):
             return None
         #
         startpos = self.pos
@@ -7978,8 +9202,7 @@ class parser(parserbase.parser_base):
         GrammarNode('*', GrammarNode('S', ["','", 'NAME']))])]
         """
         node = astnode('global_stmt')
-        first = frozenset({"'global'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['global_stmt']):
             return None
         #
         startpos = self.pos
@@ -8128,8 +9351,7 @@ class parser(parserbase.parser_base):
         GrammarNode('*', GrammarNode('S', ["','", 'NAME']))])]
         """
         node = astnode('nonlocal_stmt')
-        first = frozenset({"'nonlocal'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['nonlocal_stmt']):
             return None
         #
         startpos = self.pos
@@ -8274,8 +9496,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ["','", 'test']))])]
         """
         node = astnode('assert_stmt')
-        first = frozenset({"'assert'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['assert_stmt']):
             return None
         #
         startpos = self.pos
@@ -8552,36 +9773,39 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[21]) and not ('EPS' in TABLE[21]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_418(node) # (1, 1, 1), GrammarNode('S', ['if_stmt'])
+        c = self.parsehelper_418(node) # (1, 1, 1), GrammarNode('S', ['if_stmt']) FIRST: frozenset({"'if'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_420(node) # (1, 1, 1), GrammarNode('S', ['while_stmt'])
+        c = self.parsehelper_420(node) # (1, 1, 1), GrammarNode('S', ['while_stmt']) FIRST: frozenset({"'while'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_422(node) # (1, 1, 1), GrammarNode('S', ['for_stmt'])
+        c = self.parsehelper_422(node) # (1, 1, 1), GrammarNode('S', ['for_stmt']) FIRST: frozenset({"'for'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_424(node) # (1, 1, 1), GrammarNode('S', ['try_stmt'])
+        c = self.parsehelper_424(node) # (1, 1, 1), GrammarNode('S', ['try_stmt']) FIRST: frozenset({"'try'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_426(node) # (1, 1, 1), GrammarNode('S', ['with_stmt'])
+        c = self.parsehelper_426(node) # (1, 1, 1), GrammarNode('S', ['with_stmt']) FIRST: frozenset({"'with'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_428(node) # (1, 1, 1), GrammarNode('S', ['funcdef'])
+        c = self.parsehelper_428(node) # (1, 1, 1), GrammarNode('S', ['funcdef']) FIRST: frozenset({"'def'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_430(node) # (1, 1, 1), GrammarNode('S', ['classdef'])
+        c = self.parsehelper_430(node) # (1, 1, 1), GrammarNode('S', ['classdef']) FIRST: frozenset({"'class'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_432(node) # (1, 1, 1), GrammarNode('S', ['decorated'])
+        c = self.parsehelper_432(node) # (1, 1, 1), GrammarNode('S', ['decorated']) FIRST: frozenset({"'@'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -8600,8 +9824,7 @@ class parser(parserbase.parser_base):
         ['classdef']), GrammarNode('S', ['decorated'])])]
         """
         node = astnode('compound_stmt')
-        first = frozenset({"'for'", "'def'", "'if'", "'with'", "'@'", "'try'", "'while'", "'class'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['compound_stmt']):
             return None
         #
         startpos = self.pos
@@ -8925,8 +10148,7 @@ class parser(parserbase.parser_base):
         'suite']))])]
         """
         node = astnode('if_stmt')
-        first = frozenset({"'if'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['if_stmt']):
             return None
         #
         startpos = self.pos
@@ -9132,8 +10354,7 @@ class parser(parserbase.parser_base):
         'suite']))])]
         """
         node = astnode('while_stmt')
-        first = frozenset({"'while'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['while_stmt']):
             return None
         #
         startpos = self.pos
@@ -9379,8 +10600,7 @@ class parser(parserbase.parser_base):
         ["'else'", "':'", 'suite']))])]
         """
         node = astnode('for_stmt')
-        first = frozenset({"'for'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['for_stmt']):
             return None
         #
         startpos = self.pos
@@ -9807,12 +11027,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[22]) and not ('EPS' in TABLE[22]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_494(node) # (1, 3, 1), GrammarNode('S', ["'finally'", "':'", 'suite'])
+        c = self.parsehelper_494(node) # (1, 3, 1), GrammarNode('S', ["'finally'", "':'", 'suite']) FIRST: frozenset({"'finally'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_478(node) # (0, 3, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ['except_clause', "':'", 'suite'])), GrammarNode('[', GrammarNode('S', ["'else'", "':'", 'suite'])), GrammarNode('[', GrammarNode('S', ["'finally'", "':'", 'suite']))])
+        c = self.parsehelper_478(node) # (0, 3, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ['except_clause', "':'", 'suite'])), GrammarNode('[', GrammarNode('S', ["'else'", "':'", 'suite'])), GrammarNode('[', GrammarNode('S', ["'finally'", "':'", 'suite']))]) FIRST: frozenset({"'else'", 'EPS', "'finally'", "'except'"}) INTERSECTION: YES (0, frozenset({"'finally'"}))
         if c is not None:
             return c
 
@@ -9886,8 +11109,7 @@ class parser(parserbase.parser_base):
         ["'finally'", "':'", 'suite'])])])])]
         """
         node = astnode('try_stmt')
-        first = frozenset({"'try'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['try_stmt']):
             return None
         #
         startpos = self.pos
@@ -10077,8 +11299,7 @@ class parser(parserbase.parser_base):
         'suite'])]
         """
         node = astnode('with_stmt')
-        first = frozenset({"'with'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['with_stmt']):
             return None
         #
         startpos = self.pos
@@ -10203,8 +11424,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'as'", 'expr']))])]
         """
         node = astnode('with_item')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['with_item']):
             return None
         #
         startpos = self.pos
@@ -10382,8 +11602,7 @@ class parser(parserbase.parser_base):
         'NAME']))]))])]
         """
         node = astnode('except_clause')
-        first = frozenset({"'except'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['except_clause']):
             return None
         #
         startpos = self.pos
@@ -10569,12 +11788,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[23]) and not ('EPS' in TABLE[23]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_525(node) # (1, 4, 1), GrammarNode('S', ['NEWLINE', 'INDENT', GrammarNode('+', GrammarNode('S', ['stmt'])), 'DEDENT'])
+        c = self.parsehelper_525(node) # (1, 4, 1), GrammarNode('S', ['NEWLINE', 'INDENT', GrammarNode('+', GrammarNode('S', ['stmt'])), 'DEDENT']) FIRST: frozenset({'NEWLINE'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_523(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt'])
+        c = self.parsehelper_523(node) # (1, 1, 0), GrammarNode('S', ['simple_stmt']) FIRST: frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'*'", "'nonlocal'", "'...'", 'STRING', "'return'", "'assert'", 'NAME', "'global'", "'False'", "'pass'", "'import'", "'-'", "'yield'", "'del'", "'('", "'from'", "'['", "'break'", "'continue'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -10590,8 +11812,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['stmt'])), 'DEDENT'])])]
         """
         node = astnode('suite')
-        first = frozenset({"'raise'", "'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'del'", "'lambda'", "'*'", "'nonlocal'", "'...'", 'STRING', "'return'", 'NEWLINE', "'assert'", 'NAME', "'False'", "'pass'", "'import'", "'-'", "'yield'", "'global'", "'('", "'from'", "'['", "'break'", "'continue'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['suite']):
             return None
         #
         startpos = self.pos
@@ -10788,12 +12009,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[24]) and not ('EPS' in TABLE[24]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_533(node) # (1, 4, 0), GrammarNode('S', ['or_test', GrammarNode('[', GrammarNode('S', ["'if'", 'or_test', "'else'", 'test']))])
+        c = self.parsehelper_533(node) # (1, 4, 0), GrammarNode('S', ['or_test', GrammarNode('[', GrammarNode('S', ["'if'", 'or_test', "'else'", 'test']))]) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_541(node) # (1, 1, 1), GrammarNode('S', ['lambdef'])
+        c = self.parsehelper_541(node) # (1, 1, 1), GrammarNode('S', ['lambdef']) FIRST: frozenset({"'lambda'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -10809,8 +12033,7 @@ class parser(parserbase.parser_base):
         'test']))]), GrammarNode('S', ['lambdef'])])]
         """
         node = astnode('test')
-        first = frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['test']):
             return None
         #
         startpos = self.pos
@@ -10895,12 +12118,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[25]) and not ('EPS' in TABLE[25]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_546(node) # (1, 1, 1), GrammarNode('S', ['lambdef_nocond'])
+        c = self.parsehelper_546(node) # (1, 1, 1), GrammarNode('S', ['lambdef_nocond']) FIRST: frozenset({"'lambda'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_544(node) # (1, 1, 0), GrammarNode('S', ['or_test'])
+        c = self.parsehelper_544(node) # (1, 1, 0), GrammarNode('S', ['or_test']) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -10915,8 +12141,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['lambdef_nocond'])])]
         """
         node = astnode('test_nocond')
-        first = frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['test_nocond']):
             return None
         #
         startpos = self.pos
@@ -11061,8 +12286,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['varargslist'])), "':'", 'test'])]
         """
         node = astnode('lambdef')
-        first = frozenset({"'lambda'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['lambdef']):
             return None
         #
         startpos = self.pos
@@ -11207,8 +12431,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['varargslist'])), "':'", 'test_nocond'])]
         """
         node = astnode('lambdef_nocond')
-        first = frozenset({"'lambda'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['lambdef_nocond']):
             return None
         #
         startpos = self.pos
@@ -11337,8 +12560,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'or'", 'and_test']))])]
         """
         node = astnode('or_test')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['or_test']):
             return None
         #
         startpos = self.pos
@@ -11467,8 +12689,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'and'", 'not_test']))])]
         """
         node = astnode('and_test')
-        first = frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['and_test']):
             return None
         #
         startpos = self.pos
@@ -11573,12 +12794,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[26]) and not ('EPS' in TABLE[26]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_575(node) # (1, 2, 1), GrammarNode('S', ["'not'", 'not_test'])
+        c = self.parsehelper_575(node) # (1, 2, 1), GrammarNode('S', ["'not'", 'not_test']) FIRST: frozenset({"'not'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_578(node) # (1, 1, 0), GrammarNode('S', ['comparison'])
+        c = self.parsehelper_578(node) # (1, 1, 0), GrammarNode('S', ['comparison']) FIRST: frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -11593,8 +12817,7 @@ class parser(parserbase.parser_base):
         'not_test']), GrammarNode('S', ['comparison'])])]
         """
         node = astnode('not_test')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['not_test']):
             return None
         #
         startpos = self.pos
@@ -11723,8 +12946,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['comp_op', 'expr']))])]
         """
         node = astnode('comparison')
-        first = frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['comparison']):
             return None
         #
         startpos = self.pos
@@ -12137,48 +13359,51 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[27]) and not ('EPS' in TABLE[27]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_603(node) # (1, 2, 1), GrammarNode('S', ["'not'", "'in'"])
+        c = self.parsehelper_603(node) # (1, 2, 1), GrammarNode('S', ["'not'", "'in'"]) FIRST: frozenset({"'not'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_608(node) # (1, 2, 1), GrammarNode('S', ["'is'", "'not'"])
+        c = self.parsehelper_608(node) # (1, 2, 1), GrammarNode('S', ["'is'", "'not'"]) FIRST: frozenset({"'is'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_587(node) # (1, 1, 1), GrammarNode('S', ["'<'"])
+        c = self.parsehelper_587(node) # (1, 1, 1), GrammarNode('S', ["'<'"]) FIRST: frozenset({"'<'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_589(node) # (1, 1, 1), GrammarNode('S', ["'>'"])
+        c = self.parsehelper_589(node) # (1, 1, 1), GrammarNode('S', ["'>'"]) FIRST: frozenset({"'>'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_591(node) # (1, 1, 1), GrammarNode('S', ["'=='"])
+        c = self.parsehelper_591(node) # (1, 1, 1), GrammarNode('S', ["'=='"]) FIRST: frozenset({"'=='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_593(node) # (1, 1, 1), GrammarNode('S', ["'>='"])
+        c = self.parsehelper_593(node) # (1, 1, 1), GrammarNode('S', ["'>='"]) FIRST: frozenset({"'>='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_595(node) # (1, 1, 1), GrammarNode('S', ["'<='"])
+        c = self.parsehelper_595(node) # (1, 1, 1), GrammarNode('S', ["'<='"]) FIRST: frozenset({"'<='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_597(node) # (1, 1, 1), GrammarNode('S', ["'<>'"])
+        c = self.parsehelper_597(node) # (1, 1, 1), GrammarNode('S', ["'<>'"]) FIRST: frozenset({"'<>'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_599(node) # (1, 1, 1), GrammarNode('S', ["'!='"])
+        c = self.parsehelper_599(node) # (1, 1, 1), GrammarNode('S', ["'!='"]) FIRST: frozenset({"'!='"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_601(node) # (1, 1, 1), GrammarNode('S', ["'in'"])
+        c = self.parsehelper_601(node) # (1, 1, 1), GrammarNode('S', ["'in'"]) FIRST: frozenset({"'in'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_606(node) # (1, 1, 1), GrammarNode('S', ["'is'"])
+        c = self.parsehelper_606(node) # (1, 1, 1), GrammarNode('S', ["'is'"]) FIRST: frozenset({"'is'"}) INTERSECTION: YES (1, frozenset({"'is'"}))
         if c is not None:
             return c
 
@@ -12198,8 +13423,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'is'"]), GrammarNode('S', ["'is'", "'not'"])])]
         """
         node = astnode('comp_op')
-        first = frozenset({"'!='", "'>'", "'not'", "'=='", "'<>'", "'in'", "'<='", "'is'", "'>='", "'<'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['comp_op']):
             return None
         #
         startpos = self.pos
@@ -12271,8 +13495,7 @@ class parser(parserbase.parser_base):
         ['star_expr', ':', GrammarNode('S', ["'*'", 'expr'])]
         """
         node = astnode('star_expr')
-        first = frozenset({"'*'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['star_expr']):
             return None
         #
         startpos = self.pos
@@ -12401,8 +13624,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'|'", 'xor_expr']))])]
         """
         node = astnode('expr')
-        first = frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['expr']):
             return None
         #
         startpos = self.pos
@@ -12531,8 +13753,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'^'", 'and_expr']))])]
         """
         node = astnode('xor_expr')
-        first = frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['xor_expr']):
             return None
         #
         startpos = self.pos
@@ -12661,8 +13882,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'&'", 'shift_expr']))])]
         """
         node = astnode('and_expr')
-        first = frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['and_expr']):
             return None
         #
         startpos = self.pos
@@ -12761,12 +13981,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[28]) and not ('EPS' in TABLE[28]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_637(node) # (1, 1, 1), GrammarNode('S', ["'<<'"])
+        c = self.parsehelper_637(node) # (1, 1, 1), GrammarNode('S', ["'<<'"]) FIRST: frozenset({"'<<'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_639(node) # (1, 1, 1), GrammarNode('S', ["'>>'"])
+        c = self.parsehelper_639(node) # (1, 1, 1), GrammarNode('S', ["'>>'"]) FIRST: frozenset({"'>>'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -12862,8 +14085,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'>>'"])]), 'arith_expr']))])]
         """
         node = astnode('shift_expr')
-        first = frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['shift_expr']):
             return None
         #
         startpos = self.pos
@@ -12962,12 +14184,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[29]) and not ('EPS' in TABLE[29]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_647(node) # (1, 1, 1), GrammarNode('S', ["'+'"])
+        c = self.parsehelper_647(node) # (1, 1, 1), GrammarNode('S', ["'+'"]) FIRST: frozenset({"'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_649(node) # (1, 1, 1), GrammarNode('S', ["'-'"])
+        c = self.parsehelper_649(node) # (1, 1, 1), GrammarNode('S', ["'-'"]) FIRST: frozenset({"'-'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -13063,8 +14288,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'-'"])]), 'term']))])]
         """
         node = astnode('arith_expr')
-        first = frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['arith_expr']):
             return None
         #
         startpos = self.pos
@@ -13227,20 +14451,23 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[30]) and not ('EPS' in TABLE[30]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_657(node) # (1, 1, 1), GrammarNode('S', ["'*'"])
+        c = self.parsehelper_657(node) # (1, 1, 1), GrammarNode('S', ["'*'"]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_659(node) # (1, 1, 1), GrammarNode('S', ["'/'"])
+        c = self.parsehelper_659(node) # (1, 1, 1), GrammarNode('S', ["'/'"]) FIRST: frozenset({"'/'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_661(node) # (1, 1, 1), GrammarNode('S', ["'%'"])
+        c = self.parsehelper_661(node) # (1, 1, 1), GrammarNode('S', ["'%'"]) FIRST: frozenset({"'%'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_663(node) # (1, 1, 1), GrammarNode('S', ["'//'"])
+        c = self.parsehelper_663(node) # (1, 1, 1), GrammarNode('S', ["'//'"]) FIRST: frozenset({"'//'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -13337,8 +14564,7 @@ class parser(parserbase.parser_base):
         ["'//'"])]), 'factor']))])]
         """
         node = astnode('term')
-        first = frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['term']):
             return None
         #
         startpos = self.pos
@@ -13455,16 +14681,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[31]) and not ('EPS' in TABLE[31]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_669(node) # (1, 1, 1), GrammarNode('S', ["'+'"])
+        c = self.parsehelper_669(node) # (1, 1, 1), GrammarNode('S', ["'+'"]) FIRST: frozenset({"'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_671(node) # (1, 1, 1), GrammarNode('S', ["'-'"])
+        c = self.parsehelper_671(node) # (1, 1, 1), GrammarNode('S', ["'-'"]) FIRST: frozenset({"'-'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_673(node) # (1, 1, 1), GrammarNode('S', ["'~'"])
+        c = self.parsehelper_673(node) # (1, 1, 1), GrammarNode('S', ["'~'"]) FIRST: frozenset({"'~'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -13549,12 +14778,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[32]) and not ('EPS' in TABLE[32]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_667(node) # (1, 2, 1), GrammarNode('S', [GrammarNode('A', [GrammarNode('S', ["'+'"]), GrammarNode('S', ["'-'"]), GrammarNode('S', ["'~'"])]), 'factor'])
+        c = self.parsehelper_667(node) # (1, 2, 1), GrammarNode('S', [GrammarNode('A', [GrammarNode('S', ["'+'"]), GrammarNode('S', ["'-'"]), GrammarNode('S', ["'~'"])]), 'factor']) FIRST: frozenset({"'-'", "'~'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_676(node) # (1, 1, 0), GrammarNode('S', ['power'])
+        c = self.parsehelper_676(node) # (1, 1, 0), GrammarNode('S', ['power']) FIRST: frozenset({"'True'", 'STRING', "'False'", "'None'", 'NUMBER', "'{'", "'('", "'['", "'...'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -13571,8 +14803,7 @@ class parser(parserbase.parser_base):
         ['power'])])]
         """
         node = astnode('factor')
-        first = frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['factor']):
             return None
         #
         startpos = self.pos
@@ -13754,8 +14985,7 @@ class parser(parserbase.parser_base):
         ["'**'", 'factor']))])]
         """
         node = astnode('power')
-        first = frozenset({"'True'", 'STRING', "'False'", "'None'", 'NUMBER', "'{'", "'('", "'['", "'...'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['power']):
             return None
         #
         startpos = self.pos
@@ -13854,12 +15084,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[33]) and not ('EPS' in TABLE[33]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_693(node) # (1, 1, 1), GrammarNode('S', ['yield_expr'])
+        c = self.parsehelper_693(node) # (1, 1, 1), GrammarNode('S', ['yield_expr']) FIRST: frozenset({"'yield'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_695(node) # (1, 1, 0), GrammarNode('S', ['testlist_comp'])
+        c = self.parsehelper_695(node) # (1, 1, 0), GrammarNode('S', ['testlist_comp']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -14405,44 +15638,47 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[34]) and not ('EPS' in TABLE[34]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_689(node) # (1, 3, 1), GrammarNode('S', ["'('", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist_comp'])])), "')'"])
+        c = self.parsehelper_689(node) # (1, 3, 1), GrammarNode('S', ["'('", GrammarNode('[', GrammarNode('A', [GrammarNode('S', ['yield_expr']), GrammarNode('S', ['testlist_comp'])])), "')'"]) FIRST: frozenset({"'('"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_698(node) # (1, 3, 1), GrammarNode('S', ["'['", GrammarNode('[', GrammarNode('S', ['testlist_comp'])), "']'"])
+        c = self.parsehelper_698(node) # (1, 3, 1), GrammarNode('S', ["'['", GrammarNode('[', GrammarNode('S', ['testlist_comp'])), "']'"]) FIRST: frozenset({"'['"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_704(node) # (1, 3, 1), GrammarNode('S', ["'{'", GrammarNode('[', GrammarNode('S', ['dictorsetmaker'])), "'}'"])
+        c = self.parsehelper_704(node) # (1, 3, 1), GrammarNode('S', ["'{'", GrammarNode('[', GrammarNode('S', ['dictorsetmaker'])), "'}'"]) FIRST: frozenset({"'{'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_712(node) # (1, 1, 1), GrammarNode('S', ['NUMBER'])
+        c = self.parsehelper_712(node) # (1, 1, 1), GrammarNode('S', ['NUMBER']) FIRST: frozenset({'NUMBER'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_714(node) # (1, 1, 1), GrammarNode('S', [GrammarNode('+', GrammarNode('S', ['STRING']))])
+        c = self.parsehelper_714(node) # (1, 1, 1), GrammarNode('S', [GrammarNode('+', GrammarNode('S', ['STRING']))]) FIRST: frozenset({'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_718(node) # (1, 1, 1), GrammarNode('S', ["'...'"])
+        c = self.parsehelper_718(node) # (1, 1, 1), GrammarNode('S', ["'...'"]) FIRST: frozenset({"'...'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_720(node) # (1, 1, 1), GrammarNode('S', ["'None'"])
+        c = self.parsehelper_720(node) # (1, 1, 1), GrammarNode('S', ["'None'"]) FIRST: frozenset({"'None'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_722(node) # (1, 1, 1), GrammarNode('S', ["'True'"])
+        c = self.parsehelper_722(node) # (1, 1, 1), GrammarNode('S', ["'True'"]) FIRST: frozenset({"'True'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_724(node) # (1, 1, 1), GrammarNode('S', ["'False'"])
+        c = self.parsehelper_724(node) # (1, 1, 1), GrammarNode('S', ["'False'"]) FIRST: frozenset({"'False'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_710(node) # (1, 1, 0), GrammarNode('S', ['NAME'])
+        c = self.parsehelper_710(node) # (1, 1, 0), GrammarNode('S', ['NAME']) FIRST: frozenset({'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -14485,8 +15721,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["'True'"]), GrammarNode('S', ["'False'"])])])]
         """
         node = astnode('atom')
-        first = frozenset({"'True'", 'STRING', "'False'", "'None'", 'NUMBER', "'{'", "'('", "'['", "'...'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['atom']):
             return None
         #
         startpos = self.pos
@@ -14571,12 +15806,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[35]) and not ('EPS' in TABLE[35]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_730(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_730(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_728(node) # (1, 1, 0), GrammarNode('S', ['test'])
+        c = self.parsehelper_728(node) # (1, 1, 0), GrammarNode('S', ['test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -14701,12 +15939,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[36]) and not ('EPS' in TABLE[36]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_742(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_742(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_740(node) # (1, 1, 0), GrammarNode('S', ['test'])
+        c = self.parsehelper_740(node) # (1, 1, 0), GrammarNode('S', ['test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -14833,12 +16074,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[37]) and not ('EPS' in TABLE[37]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_733(node) # (1, 1, 1), GrammarNode('S', ['comp_for'])
+        c = self.parsehelper_733(node) # (1, 1, 1), GrammarNode('S', ['comp_for']) FIRST: frozenset({"'for'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_735(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", GrammarNode('A', [GrammarNode('S', ['test']), GrammarNode('S', ['star_expr'])])])), GrammarNode('[', GrammarNode('S', ["','"]))])
+        c = self.parsehelper_735(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", GrammarNode('A', [GrammarNode('S', ['test']), GrammarNode('S', ['star_expr'])])])), GrammarNode('[', GrammarNode('S', ["','"]))]) FIRST: frozenset({'EPS', "','"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -14882,8 +16126,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ["','"]))])])])]
         """
         node = astnode('testlist_comp')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'*'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['testlist_comp']):
             return None
         #
         startpos = self.pos
@@ -15132,16 +16375,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[38]) and not ('EPS' in TABLE[38]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_748(node) # (1, 3, 1), GrammarNode('S', ["'('", GrammarNode('[', GrammarNode('S', ['arglist'])), "')'"])
+        c = self.parsehelper_748(node) # (1, 3, 1), GrammarNode('S', ["'('", GrammarNode('[', GrammarNode('S', ['arglist'])), "')'"]) FIRST: frozenset({"'('"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_754(node) # (1, 3, 1), GrammarNode('S', ["'['", 'subscriptlist', "']'"])
+        c = self.parsehelper_754(node) # (1, 3, 1), GrammarNode('S', ["'['", 'subscriptlist', "']'"]) FIRST: frozenset({"'['"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_758(node) # (1, 2, 1), GrammarNode('S', ["'.'", 'NAME'])
+        c = self.parsehelper_758(node) # (1, 2, 1), GrammarNode('S', ["'.'", 'NAME']) FIRST: frozenset({"'.'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -15158,8 +16404,7 @@ class parser(parserbase.parser_base):
         ["'.'", 'NAME'])])]
         """
         node = astnode('trailer')
-        first = frozenset({"'('", "'.'", "'['"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['trailer']):
             return None
         #
         startpos = self.pos
@@ -15341,8 +16586,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["','"]))])]
         """
         node = astnode('subscriptlist')
-        first = frozenset({"'True'", "'~'", "'not'", "':'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['subscriptlist']):
             return None
         #
         startpos = self.pos
@@ -15583,12 +16827,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[39]) and not ('EPS' in TABLE[39]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_773(node) # (1, 4, 0), GrammarNode('S', [GrammarNode('[', GrammarNode('S', ['test'])), "':'", GrammarNode('[', GrammarNode('S', ['test'])), GrammarNode('[', GrammarNode('S', ['sliceop']))])
+        c = self.parsehelper_773(node) # (1, 4, 0), GrammarNode('S', [GrammarNode('[', GrammarNode('S', ['test'])), "':'", GrammarNode('[', GrammarNode('S', ['test'])), GrammarNode('[', GrammarNode('S', ['sliceop']))]) FIRST: frozenset({"'True'", "'~'", "'not'", "':'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'lambda'", 'STRING', "'['", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_771(node) # (1, 1, 0), GrammarNode('S', ['test'])
+        c = self.parsehelper_771(node) # (1, 1, 0), GrammarNode('S', ['test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: YES (0, frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}))
         if c is not None:
             return c
 
@@ -15605,8 +16852,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['sliceop']))])])]
         """
         node = astnode('subscript')
-        first = frozenset({"'True'", "'~'", "'not'", "':'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['subscript']):
             return None
         #
         startpos = self.pos
@@ -15711,8 +16957,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['test']))])]
         """
         node = astnode('sliceop')
-        first = frozenset({"':'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['sliceop']):
             return None
         #
         startpos = self.pos
@@ -15797,12 +17042,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[40]) and not ('EPS' in TABLE[40]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_793(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_793(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_791(node) # (1, 1, 0), GrammarNode('S', ['expr'])
+        c = self.parsehelper_791(node) # (1, 1, 0), GrammarNode('S', ['expr']) FIRST: frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -15895,12 +17143,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[41]) and not ('EPS' in TABLE[41]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_801(node) # (1, 1, 1), GrammarNode('S', ['star_expr'])
+        c = self.parsehelper_801(node) # (1, 1, 1), GrammarNode('S', ['star_expr']) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_799(node) # (1, 1, 0), GrammarNode('S', ['expr'])
+        c = self.parsehelper_799(node) # (1, 1, 0), GrammarNode('S', ['expr']) FIRST: frozenset({"'True'", "'~'", "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", 'STRING', "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -16036,8 +17287,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ["','"]))])]
         """
         node = astnode('exprlist')
-        first = frozenset({"'True'", "'~'", 'NAME', "'False'", "'None'", "'-'", 'NUMBER', "'{'", "'('", "'['", "'*'", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['exprlist']):
             return None
         #
         startpos = self.pos
@@ -16219,8 +17469,7 @@ class parser(parserbase.parser_base):
         ["','"]))])]
         """
         node = astnode('testlist')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['testlist']):
             return None
         #
         startpos = self.pos
@@ -16495,12 +17744,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[42]) and not ('EPS' in TABLE[42]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_823(node) # (1, 1, 1), GrammarNode('S', ['comp_for'])
+        c = self.parsehelper_823(node) # (1, 1, 1), GrammarNode('S', ['comp_for']) FIRST: frozenset({"'for'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_825(node) # (0, 4, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test', "':'", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])
+        c = self.parsehelper_825(node) # (0, 4, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test', "':'", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))]) FIRST: frozenset({'EPS', "','"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -16755,12 +18007,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[43]) and not ('EPS' in TABLE[43]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_839(node) # (1, 1, 1), GrammarNode('S', ['comp_for'])
+        c = self.parsehelper_839(node) # (1, 1, 1), GrammarNode('S', ['comp_for']) FIRST: frozenset({"'for'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_841(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])
+        c = self.parsehelper_841(node) # (0, 2, 1), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))]) FIRST: frozenset({'EPS', "','"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -16817,12 +18072,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[44]) and not ('EPS' in TABLE[44]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_817(node) # (1, 4, 0), GrammarNode('S', [GrammarNode('S', ['test', "':'", 'test', GrammarNode('A', [GrammarNode('S', ['comp_for']), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test', "':'", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])])])])
+        c = self.parsehelper_817(node) # (1, 4, 0), GrammarNode('S', [GrammarNode('S', ['test', "':'", 'test', GrammarNode('A', [GrammarNode('S', ['comp_for']), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test', "':'", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])])])]) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_835(node) # (1, 2, 0), GrammarNode('S', [GrammarNode('S', ['test', GrammarNode('A', [GrammarNode('S', ['comp_for']), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])])])])
+        c = self.parsehelper_835(node) # (1, 2, 0), GrammarNode('S', [GrammarNode('S', ['test', GrammarNode('A', [GrammarNode('S', ['comp_for']), GrammarNode('S', [GrammarNode('*', GrammarNode('S', ["','", 'test'])), GrammarNode('[', GrammarNode('S', ["','"]))])])])]) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}) INTERSECTION: YES (0, frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}))
         if c is not None:
             return c
 
@@ -16863,8 +18121,7 @@ class parser(parserbase.parser_base):
         ["','"]))])])])])])])]
         """
         node = astnode('dictorsetmaker')
-        first = frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'lambda'", "'['", "'...'", "'+'", 'STRING'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['dictorsetmaker']):
             return None
         #
         startpos = self.pos
@@ -17102,8 +18359,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['arglist'])), "')'"])), "':'", 'suite'])]
         """
         node = astnode('classdef')
-        first = frozenset({"'class'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['classdef']):
             return None
         #
         startpos = self.pos
@@ -17550,16 +18806,19 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[45]) and not ('EPS' in TABLE[45]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_872(node) # (1, 4, 1), GrammarNode('S', ["'*'", 'test', GrammarNode('*', GrammarNode('S', ["','", 'argument'])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'test']))])
+        c = self.parsehelper_872(node) # (1, 4, 1), GrammarNode('S', ["'*'", 'test', GrammarNode('*', GrammarNode('S', ["','", 'argument'])), GrammarNode('[', GrammarNode('S', ["','", "'**'", 'test']))]) FIRST: frozenset({"'*'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_884(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'test'])
+        c = self.parsehelper_884(node) # (1, 2, 1), GrammarNode('S', ["'**'", 'test']) FIRST: frozenset({"'**'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_867(node) # (1, 2, 0), GrammarNode('S', ['argument', GrammarNode('[', GrammarNode('S', ["','"]))])
+        c = self.parsehelper_867(node) # (1, 2, 0), GrammarNode('S', ['argument', GrammarNode('[', GrammarNode('S', ["','"]))]) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'lambda'", "'['", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -17603,8 +18862,7 @@ class parser(parserbase.parser_base):
         'test']))]), GrammarNode('S', ["'**'", 'test'])])])]
         """
         node = astnode('arglist')
-        first = frozenset({"'True'", "'~'", 'NUMBER', "'...'", "'False'", "'('", "'*'", 'STRING', "'**'", "'not'", "'None'", "'{'", "'lambda'", 'NAME', "'-'", "'['", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['arglist']):
             return None
         #
         startpos = self.pos
@@ -17781,12 +19039,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[46]) and not ('EPS' in TABLE[46]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_893(node) # (1, 3, 0), GrammarNode('S', ['test', "'='", 'test'])
+        c = self.parsehelper_893(node) # (1, 3, 0), GrammarNode('S', ['test', "'='", 'test']) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_888(node) # (1, 2, 0), GrammarNode('S', ['test', GrammarNode('[', GrammarNode('S', ['comp_for']))])
+        c = self.parsehelper_888(node) # (1, 2, 0), GrammarNode('S', ['test', GrammarNode('[', GrammarNode('S', ['comp_for']))]) FIRST: frozenset({"'True'", "'~'", "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", 'STRING', "'lambda'", "'...'", "'+'", 'NAME'}) INTERSECTION: YES (0, frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}))
         if c is not None:
             return c
 
@@ -17802,8 +19063,7 @@ class parser(parserbase.parser_base):
         ['test', "'='", 'test'])])]
         """
         node = astnode('argument')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['argument']):
             return None
         #
         startpos = self.pos
@@ -17888,12 +19148,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[47]) and not ('EPS' in TABLE[47]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_898(node) # (1, 1, 1), GrammarNode('S', ['comp_for'])
+        c = self.parsehelper_898(node) # (1, 1, 1), GrammarNode('S', ['comp_for']) FIRST: frozenset({"'for'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_900(node) # (1, 1, 1), GrammarNode('S', ['comp_if'])
+        c = self.parsehelper_900(node) # (1, 1, 1), GrammarNode('S', ['comp_if']) FIRST: frozenset({"'if'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -17908,8 +19171,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['comp_if'])])]
         """
         node = astnode('comp_iter')
-        first = frozenset({"'for'", "'if'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['comp_iter']):
             return None
         #
         startpos = self.pos
@@ -18074,8 +19336,7 @@ class parser(parserbase.parser_base):
         'or_test', GrammarNode('[', GrammarNode('S', ['comp_iter']))])]
         """
         node = astnode('comp_for')
-        first = frozenset({"'for'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['comp_for']):
             return None
         #
         startpos = self.pos
@@ -18200,8 +19461,7 @@ class parser(parserbase.parser_base):
         GrammarNode('[', GrammarNode('S', ['comp_iter']))])]
         """
         node = astnode('comp_if')
-        first = frozenset({"'if'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['comp_if']):
             return None
         #
         startpos = self.pos
@@ -18253,8 +19513,7 @@ class parser(parserbase.parser_base):
         ['encoding_decl', ':', GrammarNode('S', ['NAME'])]
         """
         node = astnode('encoding_decl')
-        first = frozenset({'NAME'})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['encoding_decl']):
             return None
         #
         startpos = self.pos
@@ -18359,8 +19618,7 @@ class parser(parserbase.parser_base):
         GrammarNode('S', ['yield_arg']))])]
         """
         node = astnode('yield_expr')
-        first = frozenset({"'yield'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['yield_expr']):
             return None
         #
         startpos = self.pos
@@ -18465,12 +19723,15 @@ class parser(parserbase.parser_base):
         #
 
         # A-type (alt)
+        if self.tok_peek_gstr().isdisjoint(TABLE[48]) and not ('EPS' in TABLE[48]):
+            self.pos = oldpos
+            return None
 
-        c = self.parsehelper_924(node) # (1, 2, 1), GrammarNode('S', ["'from'", 'test'])
+        c = self.parsehelper_924(node) # (1, 2, 1), GrammarNode('S', ["'from'", 'test']) FIRST: frozenset({"'from'"}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
-        c = self.parsehelper_927(node) # (1, 1, 0), GrammarNode('S', ['testlist'])
+        c = self.parsehelper_927(node) # (1, 1, 0), GrammarNode('S', ['testlist']) FIRST: frozenset({"'True'", "'~'", 'NAME', "'not'", "'None'", "'-'", 'NUMBER', "'{'", "'False'", "'('", "'['", "'lambda'", "'...'", "'+'", 'STRING'}) INTERSECTION: EMPTY
         if c is not None:
             return c
 
@@ -18485,8 +19746,7 @@ class parser(parserbase.parser_base):
         'test']), GrammarNode('S', ['testlist'])])]
         """
         node = astnode('yield_arg')
-        first = frozenset({"'True'", "'~'", "'not'", "'None'", 'NUMBER', "'{'", "'lambda'", "'...'", 'STRING', 'NAME', "'False'", "'-'", "'['", "'('", "'from'", "'+'"})
-        if not self.tok_peek_gstr().intersection(first):
+        if self.tok_peek_gstr().isdisjoint(FIRST['yield_arg']):
             return None
         #
         startpos = self.pos

@@ -3,7 +3,7 @@ PPPP: Pure Python Python Parser
 
 By Alejandro Santos, `alejolp@gmail.com`
 
-This project is a Python 3 tokenizer, parser generator and parser for the Python 3 grammar file.
+This project is a Python 3 tokenizer, parser generator and parser for the Python 3 grammar file. No specific parsing library was used, and no regular expressions are used as well. This is all pure Python 3 code.
 
 For the moment only the AST tree is generated, directly translated from the Grammar description.
 
